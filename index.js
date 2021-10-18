@@ -26,7 +26,7 @@ function setupValidateWithJoi(joiSchema, joiOptions, translator, ifTest) {
 
   const mergedOptions = Object.assign({}, joiDefaults, joiOptions);
 
-  return async function validateWithJoi(context, next) {
+  return async function validateWithJoi(context) {
     utils.checkContext(context, 'before', ['create', 'update', 'patch'], 'validate-joi');
     const values = utils.getItems(context);
 
@@ -38,9 +38,6 @@ function setupValidateWithJoi(joiSchema, joiOptions, translator, ifTest) {
         utils.replaceItems(context, convertedValues);
       }
 
-      if (typeof next === 'function') {
-        return next(null, context);
-      }
       return context;
     } catch (error) {
       const formErrors = translator(error);
